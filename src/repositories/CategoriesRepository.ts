@@ -1,48 +1,43 @@
-import { Category } from "../models/Category";
+import Category from "../model/Category";
 
+interface ICreateCategoryDTO{
+    name: string,
+    description: string
+};
 
-//DTO
-
-interface ICreateCategoryDTO {
-    name: string;
-    description: string;
-}
 
 class CategoriesRepository {
 
-    private categories: Category[];
+    private categories : Category[];
+
+
 
     constructor(){
         this.categories = [];
     }
 
-    create({name, description}: ICreateCategoryDTO) : void {
+    //verificar a existencia 
+    findBind(name: string): Category{
+        const category = this.categories.find(category => category.name === name)
+        return category;
+    }
+    //criação
+    create({name, description}: ICreateCategoryDTO): any {
+        const newCategory = new Category();
 
-        const category = new Category()
-
-        Object.assign(category , {
-            name,
-            description,
-            created_at : new Date()
+        Object.assign(newCategory, {
+            name, description, created_at: new Date()
             
         });
 
-        this.categories.push(category)
-
+        this.categories.push(newCategory);
     }
-
-    list(): Category[]{
-
+    //listagem
+    list(): Category[] {
         return this.categories;
-
-    }
-
-    findByName(name:string): Category{
-
-        const category = this.categories.find((category) => category.name === name);
-        return category;
     }
 
 }
 
-export {CategoriesRepository};
+
+export default CategoriesRepository;

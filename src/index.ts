@@ -1,17 +1,14 @@
 import express from 'express';
-import { categoriesRoutes } from './routers/categories.routes';
+import categoryRouter from './router/category.routes';
+
 
 const app = express();
 const port = 3300;
 
 app.use(express.json());
-app.use(categoriesRoutes);
 
-app.post('/cursos', (request, response) => {
-    const {name} = request.body;
+app.use(categoryRouter);
 
-    return response.json({name})
-})
 app.use((req, res) =>{
     res.json({msg:"Endpoint não encontrado"})
 });
